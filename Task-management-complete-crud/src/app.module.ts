@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { createConnection } from 'net';
 import { Task } from './tasks/tasks.entity';
 import { AuthModule } from './auth/auth.module';
+import { User } from './auth/user.entity';
 "reflect-metadata";
 
 
@@ -20,7 +21,7 @@ import { AuthModule } from './auth/auth.module';
     "database": "gestion-tache",
     "synchronize": true,
     "logging": false,
-    "entities": [Task],
+    "entities": [Task,User],
     "migrations": [
        "src/migration/**//*/*.ts"
     ],
