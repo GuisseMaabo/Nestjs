@@ -3,6 +3,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { createConnection } from 'net';
 import { Task } from './tasks/tasks.entity';
+import { AuthModule } from './auth/auth.module';
 "reflect-metadata";
 
 
@@ -29,6 +30,8 @@ import { Task } from './tasks/tasks.entity';
     }),
     
     TasksModule,
+    
+    AuthModule,
   ],
 })
 export class AppModule {}
