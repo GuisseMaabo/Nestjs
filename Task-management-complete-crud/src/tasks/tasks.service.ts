@@ -1,10 +1,12 @@
-import { Injectable, NotFoundException, Query } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskRepository } from './task.Repository';
 import { Task } from './tasks.entity';
 import { CreateTaskDto } from './dto/create-tasks.dto';
 import { TaskStatus } from './task-status.enum';
 import { GetTasksFilterDto } from './dto/get-task.dto';
+import { User } from 'src/auth/user.entity';
+import { GetUser } from 'src/auth/get-user.decorator';
 
 
 
@@ -12,12 +14,32 @@ import { GetTasksFilterDto } from './dto/get-task.dto';
 export class TasksService {
   
   constructor (
-    @InjectRepository(TaskRepository)
+    @InjectRepository(Task)
+    private task: Task,
     private taskRepository: TaskRepository,
   )  {}
 
-  async  getTasks(filterDto:GetTasksFilterDto) : Promise <Task[]>{
-    return this.taskRepository.getTasks(filterDto); 
+  async  getTasks(
+    filterDto:GetTasksFilterDto
+     
+    ) : Promise <Task[]>{
+    const {status,search}=filterDto;
+    const query = this.taskRepository.createQueryBuilder('task');
+
+      
+   
+    
+    if (status) {
+      query.andWhere('task.status = status', {status} );
+  }
+
+  if (search) {
+      query.andWhere('(task.title LIKE :search OR task.description LIKE :search)', { search: `%${search}%` });
+  }
+  const tasks = await query.getMany();
+ 
+
+    return tasks; 
    
   }
 
@@ -47,18 +69,23 @@ async getTaskById(id: number): Promise <Task> {
     return found;
     }
     
-    async createTask (createTaskDto:CreateTaskDto):Promise <Task> {
+    async createTask (
+      createTaskDto:CreateTaskDto,
+      user:User,
+      ):Promise <Task> {
 
       const {title,description}= createTaskDto;
       const task = new Task();
       task.title = title;
       task.description = description;
       task.status = TaskStatus.OPEN;
+      task.user=user;
 
       await task.save();
-
+        delete task.user;
       return task;
   }
+
   async deleteTask(id:number) : Promise<void> {
     const result = await this.taskRepository.delete(id);
     // console.log (result);

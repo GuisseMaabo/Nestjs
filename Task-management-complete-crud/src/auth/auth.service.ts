@@ -25,9 +25,6 @@ export class AuthService {
     }*/
     async signUp (authCredentialsDto:AuthCredentialsDto): Promise <void> {
         const {username , password} = authCredentialsDto ;
-
-        
-
         const user = new User();
         user.username=username;
         user.salt = await bcrypt.genSalt();
@@ -37,11 +34,7 @@ export class AuthService {
         console.log(user.password);
         console.log(user.salt);
 
-/*
-        */
-
-      
-        
+           
     }
     async signIn(authCredentialsDto:AuthCredentialsDto): Promise <{accessToken:string}>{
         const username = await this.ValidateUserPassword(authCredentialsDto);
