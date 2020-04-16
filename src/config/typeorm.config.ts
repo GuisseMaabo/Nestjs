@@ -1,5 +1,8 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import { User } from "src/auth/user.entity";
+import {  Individuals } from "src/auth/user.entity";
+import { Ticket } from "src/event/tickets.entity";
+import { Sessions } from "src/event/sessions.entity";
+
 
 export const typeOrmConfig: TypeOrmModuleOptions = ({
 
@@ -9,7 +12,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = ({
     username: 'cire',
     password: 'cire',
     database: 'bioxevent',
-    entities: [User],
+    entities: [__dirname + '/../**/*.entity.{js,ts}'],
 
     synchronize: true
 });
