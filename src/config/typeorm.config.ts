@@ -1,8 +1,4 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
-import {  Individuals } from "src/auth/user.entity";
-import { Ticket } from "src/event/tickets.entity";
-import { Sessions } from "src/event/sessions.entity";
-
 
 export const typeOrmConfig: TypeOrmModuleOptions = ({
 

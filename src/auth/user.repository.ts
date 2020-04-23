@@ -2,6 +2,7 @@ import { Repository, EntityRepository } from "typeorm";
 import { Individuals } from "./user.entity";
 import { SignupDto } from "./dto/signup.dto";
 import * as bcrypt from 'bcrypt';
+import { SignInDto } from "./dto/signin.dto";
 
 
 
@@ -31,12 +32,12 @@ export class UserRepository extends  Repository <Individuals> {
         return bcrypt.hash(Password,salt);
     }
      
-    async validateIndividualPassword (signupdto: SignupDto) : Promise <string> {
-        const { Username, Password} = signupdto ;
-        const Individual = await this.findOne({Username});
+    async validateIndividualPassword (signindto: SignInDto) : Promise <string> {
+        const { Email, Password} = signindto ;
+        const Individual = await this.findOne({Email});
 
         if (Individual && await Individual.validatePassword(Password)){
-            return Individual.Username;
+            return Individual.Email;
 
         } else {
             return null;

@@ -5,6 +5,7 @@ import { SignupDto } from './dto/signup.dto';
 import { JwtPayload } from './jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
+import { SignInDto } from './dto/signin.dto';
 
 
 
@@ -20,9 +21,9 @@ export class AuthService {
         return this.userRepository.signup(signupdto);
     }
 
-    async signIn ( signupdto: SignupDto) : Promise<{ accessToken: string }>  {
+    async signIn ( signindto: SignInDto) : Promise<{ accessToken: string }>  {
  
-        const username = await this.userRepository.validateIndividualPassword(signupdto);
+        const username = await this.userRepository.validateIndividualPassword(signindto);
         
         if (!username) {
             throw new UnauthorizedException ('Invalid credentials');
