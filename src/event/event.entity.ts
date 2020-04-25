@@ -1,4 +1,5 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
+import { Individuals } from "src/auth/user.entity";
 
 
 @Entity()
@@ -30,5 +31,11 @@ export class Event extends BaseEntity {
 
     @Column()
     event_image: string;   
+
+    @ManyToOne(type=> Individuals, individual=> individual.event, { eager: false})
+    individual:Individuals;
+
+    @Column()
+    individualId : number;
 
 }

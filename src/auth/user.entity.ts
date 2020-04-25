@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import {Event } from "src/event/event.entity";
 
 @Entity()
 export class Individuals extends BaseEntity {
@@ -32,6 +33,9 @@ export class Individuals extends BaseEntity {
 
     @Column()
     salt:string;
+
+    @OneToMany(type =>Event, event=>event.individual, { eager : true})
+    event: Event [];
 
     async validatePassword (Password:string): Promise <boolean> {
         const  hash = await bcrypt.hash ( Password, this.salt );
