@@ -6,6 +6,8 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import { ForgottenRepo } from './forgottenpassword.repo';
+import { EmailRepo } from './emailverification.repo';
 
 
 
@@ -15,11 +17,15 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.register({
       secret: 'topSecret',
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: 7200,
       },
     }),
 
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([
+      UserRepository,
+      ForgottenRepo,
+      EmailRepo,
+    ]),
 
   ],
   controllers: [AuthController],
