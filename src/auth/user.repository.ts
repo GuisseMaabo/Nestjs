@@ -35,6 +35,8 @@ export class UserRepository extends  Repository <Individuals> {
     async validateIndividualPassword (signindto: SignInDto) : Promise <string> {
         const { Email, Password,user_id,Full_name,  photo,
             edit_photo} = signindto ;
+
+        
         const Individual = await this.findOne({Email});
 
         if (Individual && await Individual.validatePassword(Password)){
@@ -44,6 +46,7 @@ export class UserRepository extends  Repository <Individuals> {
             return null;
         }
 
+        
     }
 /*
     async getUser (

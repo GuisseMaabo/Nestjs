@@ -9,5 +9,4 @@ export class GetUserDto {
     Adress: string;
     Phone_Number: string;
 
-
 }

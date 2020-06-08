@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { Individuals } from "src/auth/user.entity";
+import { ListParticipant } from "src/auth/entities/ListParticipants.entity";
 
 
 @Entity()
@@ -38,4 +39,7 @@ export class Event extends BaseEntity {
     @Column()
     individualId : number;
 
+    @OneToMany((type) => ListParticipant, participants=> participants.event , { eager: false })
+    @JoinColumn()
+    Participants: ListParticipant;
 }
